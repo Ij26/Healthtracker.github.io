@@ -1,0 +1,40 @@
+<div class="p-4 bg-white rounded-lg shadow-md">
+  <input
+    [(ngModel)]="searchTerm"
+    type="text"
+    placeholder="Search by name"
+    class="input"
+  />
+  <select [(ngModel)]="filterWorkoutType" class="input">
+    <option value="">All</option>
+    <option *ngFor="let type of workoutTypes">{{ type }}</option>
+  </select>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Workouts</th>
+        <th>Number of Workouts</th>
+        <th>Total Workout Minutes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let user of filteredUsers
+            | paginate : { itemsPerPage: 5, currentPage: page }
+        "
+        (click)="selectUser(user)"
+      >
+        <td>{{ user.name }}</td>
+        <td>{{ user.workouts.join(", ") }}</td>
+        <td>{{ user.workouts.length }}</td>
+        <td>{{ user.workoutMinutes }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls
+    class="pagination"
+    (pageChange)="page = $event"
+  ></pagination-controls>
+</div>
